@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+          <link rel="icon" href="public/Mlogo.svg"  type='image/x-icon' >
+    <link rel="stylesheet" type="text/css" href="public/fts-stitch.css" >
+    <script src="https://kit.fontawesome.com/e1f93e03c9.js"></script>
+
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+
+    <title>AtlasSearchMovies</title>
+
+</head>
+<body>
+<div class="container">
+    <header class="jumbotron">
+        <div class="row">
+            <div class="col-3 ">
+                <div class="view overlay">
+                    <img src="public/M.svg" style="height:14em; padding-left: 5px; margin-top:20px;">
+                </div>
+            </div>
+            <!-- Grid column -->
+
+            <div class="col-9">
+                <h1 style="text-align:center">Let's Watch a Movie!</h1>
+                <h3 style="text-align:center; color:green;">MongoDB Atlas Search</h3>
+                <br>
+
+                <div class="row" id="box">
+
+                    <div class="col-11" id="searchBox">
+                        <form onsubmit="userActionAll('basic')" action="javascript:">
+                            <input type="text" autocomplete="off" id="myInput" class="form-control" placeholder="search movies..." aria-label="Search">
+                            <input type="submit" style="display:none">
+                        </form>
+                    </div>
+
+                    <div class="col-1">
+                        <span><i class="fa fa-search" aria-hidden="true" onclick="userActionAll('basic')" ></i></span>
+                    </div>
+
+                </div>
+           
+              
+        <div class="row">
+            <div class="col-6"></div>
+            <div class="col-3" style="margin:0px auto; text-align:center;"><img id="sliders" src="public/searchfacet.png"  onclick="showFaceting()"></div>  
+            <div class="col-3" style="margin:0px auto; text-align:center;"><img id="boost" src="public/titleboost.png" onclick="window.location.href='AtlasTitleWeight.html'"></div>
+        </div>               
+        </div>
+            <br>
+        </div>
+    </header>
+ 
+<div class="row">
+    <div class="card col-2" id="facet" >
+        <img id="FTS" src="public/leaf.png" style="height:4em; margin-top: 10px;">
+        <p><b>Runtime (min): 
+            <output name="runtimeOutput" id="runtimeOuputId">180</output>
+        </b></p>
+        <input type="range" class="slider" id="runtime" min="1" max="180" value="180" oninput="runtimeOuputId.value = runtime.value";>
+  
+       <br><br>
+
+        <p><b>IMDB Rating: 
+            <output name="ratingOutput" id="ratingOuputId">0</output>
+        </b></p>
+        <input type="range" min="1" max="10" value="0" class="slider" id="rating" oninput="ratingOuputId.value = rating.value";>
+        <br><br>
+        <p><b>Film Genre: 
+            <output name="genre" id="genre"></output>
+        </b></p>
+
+        <div class="col text-center">
+            <select id="select1" style="border-color: green; outline: none;"> 
+                <option value='All'>All</option>
+                <option value='Drama'>Drama</option> 
+                <option value='Comedy'>Comedy</option> 
+                <option value='Romance'>Romance</option>
+                <option value='Action'>Action</option>
+                <option value='Romance'>Romance</option>
+                <option value='Thriller'>Thriller</option>
+                <option value='Horror'>Horror</option>
+                <option value='Musical'>Musical</option> 
+            </select> 
+        </div> <br>
+        
+        <label for="start"><b>Release Start:</b></label>
+        <input type="date" id="start" name="start" min="1920-03-01" value="1930-03-01" style="font-size:small;";>
+        <br><br>
+        <label for="end"><b>Release End:</b></label>
+
+        <input type="date" id="end" name="end"
+               min="1920-03-01" value="2020-03-01" style="font-size:small;";>
+               <br><br>
+               <div class="row justify-content-center">
+        <button type="button" class="btn btn-success" onclick="userActionAll('faceted')" style="text-align: center;">Filter</button>
+        </div>
+    </div>
+
+    <div class="col-9" id="results">
+
+    <!-- BEST MATCH -->
+    
+        <div class="container">
+
+            <div class="row articles">
+                <div class=" col-lg-3 item" id="first-image"></div>
+
+                <div class="col-lg-9" id="first-description" ></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BEST MATCH -->
+
+        <div>
+            <p id="movieResults"></p>
+        </div>
+    <!-- </div> -->
+</div>
+
+
+</div>
+
+<!-- Bootstrap core JavaScript -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.2.1/dist/latest/bootstrap-autocomplete.min.js"></script>
+<script src="js/autocomplete.js"></script>
+<script src="js/facetautocomplete.js"></script>
+
+</body>
+</html>
+
