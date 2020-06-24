@@ -1,0 +1,21 @@
+{
+    "app_id": "atlassearchmovies-krwpx",
+    "config_version": 20200603,
+    "name": "AtlasSearchMovies",
+    "location": "US-VA",
+    "deployment_model": "GLOBAL",
+    "security": {},
+    "hosting": {
+        "enabled": true,
+        "custom_domain": "atlassearchmovies.com",
+        "app_default_domain": "atlassearchmovies-krwpx.mongodbstitch.com",
+        "default_error_path": "",
+        "default_error_code": ""
+    },
+    "custom_user_data_config": {
+        "enabled": false
+    },
+    "sync": {
+        "development_mode_enabled": false
+    }
+}
